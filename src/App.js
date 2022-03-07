@@ -1,23 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useNavigate
+} from "react-router-dom";
+import { Layout } from './components/Layout'
+import { Login } from './components/Login';
+import { SetupInterceptors } from './components/SetupInterceptors'
+import { RestaurantForm } from './components/RestaurantForm';
+import { RegisterForm } from './components/RegisterForm';
+
+function NavigateFunctionComponent(props) {
+  let navigate = useNavigate();
+  SetupInterceptors(navigate);
+  return <></>;
+}
 
 function App() {
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className='navBar'>
+        <BrowserRouter>
+          {<NavigateFunctionComponent />}
+          <Routes>
+              <Route path="/" element={<Layout />}></Route>
+              <Route path="/login" element={<Login />}></Route>
+              <Route path="/register" element={<RegisterForm />}></Route>
+              <Route path="/add" element={<RestaurantForm />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </div>
     </div>
   );
 }
