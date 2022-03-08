@@ -32,6 +32,10 @@ export const Login = () => {
         });
     }
 
+    const navigateToRegister = () => {
+        navigate('/register')
+    }
+
   return (
     <div className='vertical-center login-form container m-auto'>
         <div className='m-auto col-md-6 align-items-center'>
@@ -56,6 +60,9 @@ export const Login = () => {
                         SUBMIT
                     </button>
                 </form>
+            </div>
+            <div className='register-user my-5'>
+                <p>New user? Click <a href='' onClick={() => navigateToRegister()}>here</a> to register</p>
             </div>
         </div>
     </div>

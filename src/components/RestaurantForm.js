@@ -12,7 +12,8 @@ export const RestaurantForm = () => {
         const name = event.target.name.value;
         const place = event.target.place.value;
         const cuisine = event.target.cuisine.value;
-        const restaurantBody = {name, place, cuisine};
+        const avg_price = event.target.price.value;
+        const restaurantBody = {name, place, cuisine, avg_price};
         createRestaurant(restaurantBody).then((res) => {
             if(res.status === 201){
                 setSuccessMessage(true);
@@ -46,6 +47,10 @@ export const RestaurantForm = () => {
                 <div className="form-group d-flex my-2">
                     <label htmlFor="cuisine" className='w-25 text-left'>Cuisine</label>
                     <input type="text" className="form-control"  name='cuisine' placeholder="Cuisine"/>
+                </div>
+                <div className="form-group d-flex my-2">
+                    <label htmlFor="price" className='w-25 text-left'>Average Price</label>
+                    <input type="text" className="form-control"  name='price' placeholder="Price"/>
                 </div>
                 {
                     !isSuccess ? 

@@ -10,3 +10,7 @@ export const getRestaurants = (searchKey = '') => {
 export const createRestaurant = (restaurantBody) => {
     return axios.post(`${baseURL}${api.restaurants}`, restaurantBody);
 }
+
+export const deleteRestaurant = (id) => {
+    return axios.delete(`${baseURL}${api.restaurants}/${id}`);
+}

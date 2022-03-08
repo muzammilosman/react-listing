@@ -1,12 +1,14 @@
 import { Listing } from './Listing'
 import React, { useEffect, useState } from 'react'
-import { getRestaurants } from '../utils/base-service';
+import { deleteRestaurant, getRestaurants } from '../utils/base-service';
 import { SearchParams } from './SearchParams';
 import { useNavigate } from 'react-router';
+import { SortRestaurants } from './SortRestaurants';
 
 export const Layout = () => {
 
-    const [restaurants, setRestaurants] = useState([]);  
+    const [restaurants, setRestaurants] = useState([]); 
+    const [sortAscending, setSort] = useState(true); 
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,8 +18,8 @@ export const Layout = () => {
     const fetchRestaurants = (searchKey = '') => {
         getRestaurants(searchKey).then((res) => {
             if(res.data){
-                console.log(res.data)
-                setRestaurants(res.data)
+                setRestaurants(res.data);
+                setSort(true);
             }
         })
     }
@@ -25,6 +27,16 @@ export const Layout = () => {
     const resetListings = (evt) => {
         evt.preventDefault();
         fetchRestaurants();
+    }
+
+    const handleSort = () => {
+        if(sortAscending){
+            setRestaurants([...restaurants.sort((a,b) => a.avg_price - b.avg_price)]);
+            setSort(false);
+        } else {
+            setRestaurants([...restaurants.sort((a,b) => b.avg_price - a.avg_price)]);
+            setSort(true);
+        }
     }
 
     const handleTitleChange = (searchKey) => {
@@ -43,6 +55,17 @@ export const Layout = () => {
         localStorage.clear();
         navigate('/login')
     }
+
+    const deleteListing = (id) => {
+        if(id){
+            deleteRestaurant(id).then((res) => {
+                if(res){
+                    setRestaurants(restaurants.filter((res) => res.id !== id));
+                    alert('Restaurant deleted successfully')
+                }
+            })
+        }
+    }
  
   return (
     <div className='container'>
@@ -52,14 +75,15 @@ export const Layout = () => {
                     RESTAURANTS
                 </a>
             </h1>
-            <div className='options w-50'>
+            <div className='align-right w-50'>
                 <button className='btn' onClick={logout}>
                     Logout
                 </button>
             </div>
         </div>
-        <SearchParams onSearchChange={handleTitleChange}></SearchParams>
-        { restaurants.length > 0 ? <Listing restaurants={restaurants}></Listing> : <></>}
+        <SearchParams onSearchChange={handleTitleChange} sortAscending={sortAscending}></SearchParams>
+        <SortRestaurants onSort={handleSort} sortAscending={sortAscending}></SortRestaurants>
+        { restaurants.length > 0 ? <Listing restaurants={restaurants} onDelete={deleteListing}></Listing> : <></>}
         <div className='add-new my-4'>
             <button className='btn btn-primary' onClick={addNewRestaurant}>
                 + Add New

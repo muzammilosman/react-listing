@@ -53,10 +53,14 @@
   background: #e4f0f3;
 }
 
-.options{
+.home-heading{
+  text-align: left;
+}
+
+.align-right{
   text-align: right;
 }
 
-.home-heading{
-  text-align: left;
+.align-middle{
+  align-items: center;
 }

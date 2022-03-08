@@ -29,10 +29,17 @@ export const RegisterForm = () => {
         })
     }
 
+    const navigateToLogin = () => {
+        navigate('/login')
+    }
+
   return (
     <div className='container'>
         <div className='register-form-header'>
             <h1>CREATE USER</h1>
+            <div className='register-user my-5'>
+                <p>Existing user? Click <a href='' onClick={() => navigateToLogin()}>here</a> to login</p>
+            </div>
         </div>
         <div className='register-form vertical-center'>
             <form className='w-100' onSubmit={createUser}>
